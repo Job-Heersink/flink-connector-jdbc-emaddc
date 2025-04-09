@@ -57,7 +57,7 @@ import static org.apache.flink.util.ExceptionUtils.findThrowable;
 import static org.apache.flink.util.ExceptionUtils.findThrowableWithMessage;
 import static org.assertj.core.api.Assertions.assertThat;
 
-/** Tests using both {@link JdbcInputFormat} and {@link JdbcOutputFormat}. */
+/** Tests using both {@link JdbcInputFormat} and {@link JdbcOutputFormatNew}. */
 class JdbcFullTest extends JdbcDataTestBase {
 
     @Test
@@ -74,7 +74,7 @@ class JdbcFullTest extends JdbcDataTestBase {
     void testEnrichedClassCastException() {
         String expectedMsg = "field index: 3, field value: 11.11.";
         try {
-            JdbcOutputFormat<Row, Row, ?> jdbcOutputFormat =
+            JdbcOutputFormatNew<Row, Row, ?> jdbcOutputFormat =
                     RowJdbcOutputFormat.builder()
                             .setOptions(
                                     InternalJdbcConnectionOptions.builder()
@@ -139,8 +139,8 @@ class JdbcFullTest extends JdbcDataTestBase {
                         .withDriverName(getMetadata().getDriverClass())
                         .build();
 
-        JdbcOutputFormat<Row, Row, ?> jdbcOutputFormat =
-                new JdbcOutputFormat<>(
+        JdbcOutputFormatNew<Row, Row, ?> jdbcOutputFormat =
+                new JdbcOutputFormatNew<>(
                         new SimpleJdbcConnectionProvider(connectionOptions),
                         JdbcExecutionOptions.defaults(),
                         () ->
@@ -183,9 +183,9 @@ class JdbcFullTest extends JdbcDataTestBase {
     }
 
     public static class TestOutputFormat implements OutputFormat<Row>, Serializable {
-        private final JdbcOutputFormat<Row, ?, ?> jdbcOutputFormat;
+        private final JdbcOutputFormatNew<Row, ?, ?> jdbcOutputFormat;
 
-        public TestOutputFormat(JdbcOutputFormat<Row, ?, ?> jdbcOutputFormat) {
+        public TestOutputFormat(JdbcOutputFormatNew<Row, ?, ?> jdbcOutputFormat) {
             this.jdbcOutputFormat = jdbcOutputFormat;
         }
 

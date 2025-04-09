@@ -21,7 +21,7 @@ package org.apache.flink.connector.jdbc.core.table.sink;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.connector.jdbc.JdbcDataTestBase;
 import org.apache.flink.connector.jdbc.JdbcExecutionOptions;
-import org.apache.flink.connector.jdbc.internal.JdbcOutputFormat;
+import org.apache.flink.connector.jdbc.internal.JdbcOutputFormatNew;
 import org.apache.flink.connector.jdbc.internal.JdbcOutputSerializer;
 import org.apache.flink.connector.jdbc.internal.options.InternalJdbcConnectionOptions;
 import org.apache.flink.connector.jdbc.internal.options.JdbcDmlOptions;
@@ -56,9 +56,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /** Test suite for {@link JdbcOutputFormatBuilder}. */
-class JdbcOutputFormatTest extends JdbcDataTestBase {
+class JdbcOutputFormatNewTest extends JdbcDataTestBase {
 
-    private static JdbcOutputFormat<RowData, ?, ?> outputFormat;
+    private static JdbcOutputFormatNew<RowData, ?, ?> outputFormat;
     private static String[] fieldNames = new String[] {"id", "title", "author", "price", "qty"};
     private static DataType[] fieldDataTypes =
             new DataType[] {

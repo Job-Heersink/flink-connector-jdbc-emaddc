@@ -21,7 +21,7 @@ package org.apache.flink.connector.jdbc.core.table.sink;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.connector.jdbc.JdbcTestBase;
 import org.apache.flink.connector.jdbc.core.database.JdbcFactoryLoader;
-import org.apache.flink.connector.jdbc.internal.JdbcOutputFormat;
+import org.apache.flink.connector.jdbc.internal.JdbcOutputFormatNew;
 import org.apache.flink.connector.jdbc.internal.JdbcOutputSerializer;
 import org.apache.flink.connector.jdbc.internal.RowJdbcOutputFormat;
 import org.apache.flink.connector.jdbc.internal.options.InternalJdbcConnectionOptions;
@@ -44,7 +44,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 /** Test for the Append only mode. */
 class JdbcAppendOnlyWriterTest extends JdbcTestBase {
 
-    private JdbcOutputFormat format;
+    private JdbcOutputFormatNew format;
     private String[] fieldNames;
 
     @BeforeEach

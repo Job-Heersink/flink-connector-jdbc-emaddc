@@ -21,7 +21,7 @@ package org.apache.flink.connector.jdbc;
 import org.apache.flink.annotation.Experimental;
 import org.apache.flink.connector.jdbc.datasource.connections.JdbcConnectionProvider;
 import org.apache.flink.connector.jdbc.datasource.connections.SimpleJdbcConnectionProvider;
-import org.apache.flink.connector.jdbc.internal.JdbcOutputFormat;
+import org.apache.flink.connector.jdbc.internal.JdbcOutputFormatNew;
 import org.apache.flink.connector.jdbc.internal.executor.JdbcBatchStatementExecutor;
 import org.apache.flink.types.Row;
 
@@ -35,14 +35,14 @@ import static org.apache.flink.connector.jdbc.utils.JdbcUtils.setRecordToStateme
  * supplied OutputFormatBuilder.
  */
 @Experimental
-public class JdbcRowOutputFormat
-        extends JdbcOutputFormat<Row, Row, JdbcBatchStatementExecutor<Row>> {
+public class JdbcOutputFormat
+        extends JdbcOutputFormatNew<Row, Row, JdbcBatchStatementExecutor<Row>> {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory.getLogger(JdbcRowOutputFormat.class);
+    private static final Logger LOG = LoggerFactory.getLogger(JdbcOutputFormat.class);
 
-    private JdbcRowOutputFormat(
+    private JdbcOutputFormat(
             JdbcConnectionProvider connectionProvider,
             String sql,
             int[] typesArray,
@@ -63,7 +63,7 @@ public class JdbcRowOutputFormat
         return new JdbcOutputFormatBuilder();
     }
 
-    /** Builder for {@link JdbcRowOutputFormat}. */
+    /** Builder for {@link JdbcOutputFormat}. */
     public static class JdbcOutputFormatBuilder {
         private String username;
         private String password;
@@ -115,8 +115,8 @@ public class JdbcRowOutputFormat
          *
          * @return Configured JdbcOutputFormat
          */
-        public JdbcRowOutputFormat finish() {
-            return new JdbcRowOutputFormat(
+        public JdbcOutputFormat finish() {
+            return new JdbcOutputFormat(
                     new SimpleJdbcConnectionProvider(buildConnectionOptions()),
                     query,
                     typesArray,

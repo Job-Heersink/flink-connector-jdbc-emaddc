@@ -40,7 +40,7 @@ import static org.apache.flink.util.Preconditions.checkNotNull;
 /** A JDBC Row outputFormat that supports batching records before writing records to database. */
 @Internal
 public class RowJdbcOutputFormat<In>
-        extends JdbcOutputFormat<In, Row, JdbcBatchStatementExecutor<Row>> {
+        extends JdbcOutputFormatNew<In, Row, JdbcBatchStatementExecutor<Row>> {
 
     public RowJdbcOutputFormat(
             @Nonnull JdbcConnectionProvider connectionProvider,
@@ -67,7 +67,7 @@ public class RowJdbcOutputFormat<In>
         return new Builder();
     }
 
-    /** Builder for a {@link JdbcOutputFormat} using Row. */
+    /** Builder for a {@link JdbcOutputFormatNew} using Row. */
     public static class Builder {
         private InternalJdbcConnectionOptions options;
 
@@ -128,7 +128,7 @@ public class RowJdbcOutputFormat<In>
          *
          * @return Configured JdbcUpsertOutputFormat
          */
-        public JdbcOutputFormat<Row, Row, JdbcBatchStatementExecutor<Row>> build() {
+        public JdbcOutputFormatNew<Row, Row, JdbcBatchStatementExecutor<Row>> build() {
             checkNotNull(options, "No options supplied.");
 
             JdbcDmlOptions dml = this.dmlOptionsBuilder.build();

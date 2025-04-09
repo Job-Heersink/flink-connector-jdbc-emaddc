@@ -46,7 +46,7 @@ import static org.apache.flink.util.Preconditions.checkNotNull;
 
 /** A JDBC outputFormat that supports batching records before writing records to database. */
 @Internal
-public class JdbcOutputFormat<In, JdbcIn, JdbcExec extends JdbcBatchStatementExecutor<JdbcIn>>
+public class JdbcOutputFormatNew<In, JdbcIn, JdbcExec extends JdbcBatchStatementExecutor<JdbcIn>>
         implements Flushable, AutoCloseable, Serializable {
 
     protected final JdbcConnectionProvider connectionProvider;
@@ -61,7 +61,7 @@ public class JdbcOutputFormat<In, JdbcIn, JdbcExec extends JdbcBatchStatementExe
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory.getLogger(JdbcOutputFormat.class);
+    private static final Logger LOG = LoggerFactory.getLogger(JdbcOutputFormatNew.class);
 
     private final JdbcExecutionOptions executionOptions;
     private final StatementExecutorFactory<JdbcExec> statementExecutorFactory;
@@ -80,7 +80,7 @@ public class JdbcOutputFormat<In, JdbcIn, JdbcExec extends JdbcBatchStatementExe
     private transient ScheduledFuture<?> scheduledFuture;
     private transient volatile Exception flushException;
 
-    public JdbcOutputFormat(
+    public JdbcOutputFormatNew(
             @Nonnull JdbcConnectionProvider connectionProvider,
             @Nonnull JdbcExecutionOptions executionOptions,
             @Nonnull StatementExecutorFactory<JdbcExec> statementExecutorFactory) {
@@ -106,7 +106,7 @@ public class JdbcOutputFormat<In, JdbcIn, JdbcExec extends JdbcBatchStatementExe
             this.scheduledFuture =
                     this.scheduler.scheduleWithFixedDelay(
                             () -> {
-                                synchronized (JdbcOutputFormat.this) {
+                                synchronized (JdbcOutputFormatNew.this) {
                                     if (!closed) {
                                         try {
                                             flush();

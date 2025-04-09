@@ -22,7 +22,7 @@ import org.apache.flink.connector.jdbc.JdbcExecutionOptions;
 import org.apache.flink.connector.jdbc.core.database.dialect.JdbcDialect;
 import org.apache.flink.connector.jdbc.core.database.dialect.JdbcDialectConverter;
 import org.apache.flink.connector.jdbc.datasource.connections.SimpleJdbcConnectionProvider;
-import org.apache.flink.connector.jdbc.internal.JdbcOutputFormat;
+import org.apache.flink.connector.jdbc.internal.JdbcOutputFormatNew;
 import org.apache.flink.connector.jdbc.internal.executor.JdbcBatchStatementExecutor;
 import org.apache.flink.connector.jdbc.internal.executor.TableBufferReducedStatementExecutor;
 import org.apache.flink.connector.jdbc.internal.executor.TableBufferedStatementExecutor;
@@ -45,7 +45,7 @@ import static org.apache.flink.table.data.RowData.createFieldGetter;
 import static org.apache.flink.util.Preconditions.checkArgument;
 import static org.apache.flink.util.Preconditions.checkNotNull;
 
-/** Builder for {@link JdbcOutputFormat} for Table/SQL. */
+/** Builder for {@link JdbcOutputFormatNew} for Table/SQL. */
 public class JdbcOutputFormatBuilder implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -77,7 +77,7 @@ public class JdbcOutputFormatBuilder implements Serializable {
         return this;
     }
 
-    public JdbcOutputFormat<RowData, ?, ?> build() {
+    public JdbcOutputFormatNew<RowData, ?, ?> build() {
         checkNotNull(jdbcOptions, "jdbc options can not be null");
         checkNotNull(dmlOptions, "jdbc dml options can not be null");
         checkNotNull(executionOptions, "jdbc execution options can not be null");
@@ -88,7 +88,7 @@ public class JdbcOutputFormatBuilder implements Serializable {
                         .toArray(LogicalType[]::new);
         if (dmlOptions.getKeyFields().isPresent() && dmlOptions.getKeyFields().get().length > 0) {
             // upsert query
-            return new JdbcOutputFormat<>(
+            return new JdbcOutputFormatNew<>(
                     new SimpleJdbcConnectionProvider(jdbcOptions),
                     executionOptions,
                     () -> createBufferReduceExecutor(dmlOptions, logicalTypes));
@@ -99,7 +99,7 @@ public class JdbcOutputFormatBuilder implements Serializable {
                             .getDialect()
                             .getInsertIntoStatement(
                                     dmlOptions.getTableName(), dmlOptions.getFieldNames());
-            return new JdbcOutputFormat<>(
+            return new JdbcOutputFormatNew<>(
                     new SimpleJdbcConnectionProvider(jdbcOptions),
                     executionOptions,
                     () ->

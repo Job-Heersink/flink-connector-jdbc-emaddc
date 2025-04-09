@@ -51,10 +51,10 @@ import static org.apache.flink.util.ExceptionUtils.findThrowableWithMessage;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-/** Tests for the {@link JdbcRowOutputFormat}. */
+/** Tests for the {@link JdbcOutputFormat}. */
 class JdbcRowOutputFormatTest extends JdbcDataTestBase {
 
-    private JdbcRowOutputFormat jdbcOutputFormat;
+    private JdbcOutputFormat jdbcOutputFormat;
 
     @AfterEach
     void tearDown() throws Exception {
@@ -74,7 +74,7 @@ class JdbcRowOutputFormatTest extends JdbcDataTestBase {
         String expectedMsg = "unable to open JDBC writer";
         try {
             jdbcOutputFormat =
-                    JdbcRowOutputFormat.buildJdbcOutputFormat()
+                    JdbcOutputFormat.buildJdbcOutputFormat()
                             .setDrivername("org.apache.derby.jdbc.idontexist")
                             .setDBUrl(getMetadata().getJdbcUrl())
                             .setQuery(String.format(INSERT_TEMPLATE, INPUT_TABLE))
@@ -95,7 +95,7 @@ class JdbcRowOutputFormatTest extends JdbcDataTestBase {
         String expectedMsg = "No suitable driver found for jdbc:der:iamanerror:mory:ebookshop";
 
         jdbcOutputFormat =
-                JdbcRowOutputFormat.buildJdbcOutputFormat()
+                JdbcOutputFormat.buildJdbcOutputFormat()
                         .setDrivername(getMetadata().getDriverClass())
                         .setDBUrl("jdbc:der:iamanerror:mory:ebookshop")
                         .setQuery(String.format(INSERT_TEMPLATE, INPUT_TABLE))
@@ -112,7 +112,7 @@ class JdbcRowOutputFormatTest extends JdbcDataTestBase {
         String expectedMsg = "unable to open JDBC writer";
         try {
             jdbcOutputFormat =
-                    JdbcRowOutputFormat.buildJdbcOutputFormat()
+                    JdbcOutputFormat.buildJdbcOutputFormat()
                             .setDrivername(getMetadata().getDriverClass())
                             .setDBUrl(getMetadata().getJdbcUrl())
                             .setQuery("iamnotsql")
@@ -131,7 +131,7 @@ class JdbcRowOutputFormatTest extends JdbcDataTestBase {
         String expectedMsg = "jdbc url is empty";
         try {
             jdbcOutputFormat =
-                    JdbcRowOutputFormat.buildJdbcOutputFormat()
+                    JdbcOutputFormat.buildJdbcOutputFormat()
                             .setDrivername(getMetadata().getDriverClass())
                             .setQuery(String.format(INSERT_TEMPLATE, INPUT_TABLE))
                             .finish();
@@ -146,7 +146,7 @@ class JdbcRowOutputFormatTest extends JdbcDataTestBase {
         String expectedMsg = "Invalid character string format for type INTEGER.";
         try {
             jdbcOutputFormat =
-                    JdbcRowOutputFormat.buildJdbcOutputFormat()
+                    JdbcOutputFormat.buildJdbcOutputFormat()
                             .setDrivername(getMetadata().getDriverClass())
                             .setDBUrl(getMetadata().getJdbcUrl())
                             .setQuery(String.format(INSERT_TEMPLATE, INPUT_TABLE))
@@ -175,7 +175,7 @@ class JdbcRowOutputFormatTest extends JdbcDataTestBase {
         String expectedMsg = "field index: 3, field value: 0.";
         try {
             jdbcOutputFormat =
-                    JdbcRowOutputFormat.buildJdbcOutputFormat()
+                    JdbcOutputFormat.buildJdbcOutputFormat()
                             .setDrivername(getMetadata().getDriverClass())
                             .setDBUrl(getMetadata().getJdbcUrl())
                             .setQuery(String.format(INSERT_TEMPLATE, OUTPUT_TABLE))
@@ -212,7 +212,7 @@ class JdbcRowOutputFormatTest extends JdbcDataTestBase {
         String expectedMsg = "Writing records to JDBC failed.";
         try {
             jdbcOutputFormat =
-                    JdbcRowOutputFormat.buildJdbcOutputFormat()
+                    JdbcOutputFormat.buildJdbcOutputFormat()
                             .setDrivername(getMetadata().getDriverClass())
                             .setDBUrl(getMetadata().getJdbcUrl())
                             .setQuery(String.format(INSERT_TEMPLATE, OUTPUT_TABLE))
@@ -250,7 +250,7 @@ class JdbcRowOutputFormatTest extends JdbcDataTestBase {
     @Test
     void testJdbcOutputFormat() throws IOException, SQLException {
         jdbcOutputFormat =
-                JdbcRowOutputFormat.buildJdbcOutputFormat()
+                JdbcOutputFormat.buildJdbcOutputFormat()
                         .setDrivername(getMetadata().getDriverClass())
                         .setDBUrl(getMetadata().getJdbcUrl())
                         .setQuery(String.format(INSERT_TEMPLATE, OUTPUT_TABLE))
@@ -285,7 +285,7 @@ class JdbcRowOutputFormatTest extends JdbcDataTestBase {
     @Test
     void testFlush() throws SQLException, IOException {
         jdbcOutputFormat =
-                JdbcRowOutputFormat.buildJdbcOutputFormat()
+                JdbcOutputFormat.buildJdbcOutputFormat()
                         .setDrivername(getMetadata().getDriverClass())
                         .setDBUrl(getMetadata().getJdbcUrl())
                         .setQuery(String.format(INSERT_TEMPLATE, OUTPUT_TABLE_2))
@@ -327,7 +327,7 @@ class JdbcRowOutputFormatTest extends JdbcDataTestBase {
     @Test
     void testInvalidConnectionInJdbcOutputFormat() throws IOException, SQLException {
         jdbcOutputFormat =
-                JdbcRowOutputFormat.buildJdbcOutputFormat()
+                JdbcOutputFormat.buildJdbcOutputFormat()
                         .setDrivername(getMetadata().getDriverClass())
                         .setDBUrl(getMetadata().getJdbcUrl())
                         .setQuery(String.format(INSERT_TEMPLATE, OUTPUT_TABLE_3))

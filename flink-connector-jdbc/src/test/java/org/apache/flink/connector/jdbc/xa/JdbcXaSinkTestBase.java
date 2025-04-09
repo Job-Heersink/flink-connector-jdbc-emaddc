@@ -26,7 +26,7 @@ import org.apache.flink.connector.jdbc.JdbcExactlyOnceOptions;
 import org.apache.flink.connector.jdbc.JdbcExecutionOptions;
 import org.apache.flink.connector.jdbc.JdbcTestBase;
 import org.apache.flink.connector.jdbc.JdbcTestFixture.TestEntry;
-import org.apache.flink.connector.jdbc.internal.JdbcOutputFormat;
+import org.apache.flink.connector.jdbc.internal.JdbcOutputFormatNew;
 import org.apache.flink.connector.jdbc.internal.executor.JdbcBatchStatementExecutor;
 import org.apache.flink.core.fs.CloseableRegistry;
 import org.apache.flink.runtime.state.DefaultOperatorStateBackend;
@@ -114,8 +114,8 @@ abstract class JdbcXaSinkTestBase extends JdbcTestBase {
             XaFacade xaFacade,
             XaSinkStateHandler state,
             int batchInterval) {
-        JdbcOutputFormat<TestEntry, TestEntry, JdbcBatchStatementExecutor<TestEntry>> format =
-                new JdbcOutputFormat<>(
+        JdbcOutputFormatNew<TestEntry, TestEntry, JdbcBatchStatementExecutor<TestEntry>> format =
+                new JdbcOutputFormatNew<>(
                         xaFacade,
                         JdbcExecutionOptions.builder()
                                 .withBatchIntervalMs(batchInterval)

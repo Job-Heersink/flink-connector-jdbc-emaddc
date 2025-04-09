@@ -28,7 +28,7 @@ import org.apache.flink.configuration.Configuration;
 import org.apache.flink.connector.jdbc.JdbcExactlyOnceOptions;
 import org.apache.flink.connector.jdbc.JdbcExecutionOptions;
 import org.apache.flink.connector.jdbc.JdbcStatementBuilder;
-import org.apache.flink.connector.jdbc.internal.JdbcOutputFormat;
+import org.apache.flink.connector.jdbc.internal.JdbcOutputFormatNew;
 import org.apache.flink.connector.jdbc.internal.JdbcOutputSerializer;
 import org.apache.flink.connector.jdbc.internal.executor.JdbcBatchStatementExecutor;
 import org.apache.flink.connector.jdbc.xa.XaFacade.EmptyXaTransactionException;
@@ -140,7 +140,7 @@ public class JdbcXaSinkFunction<T> extends AbstractRichFunction
     private final XaFacade xaFacade;
     private final XaGroupOps xaGroupOps;
     private final XidGenerator xidGenerator;
-    private final JdbcOutputFormat<T, T, JdbcBatchStatementExecutor<T>> outputFormat;
+    private final JdbcOutputFormatNew<T, T, JdbcBatchStatementExecutor<T>> outputFormat;
     private final XaSinkStateHandler stateHandler;
     private final JdbcExactlyOnceOptions options;
     private JdbcOutputSerializer<T> serializer;
@@ -171,7 +171,7 @@ public class JdbcXaSinkFunction<T> extends AbstractRichFunction
             JdbcExecutionOptions executionOptions,
             JdbcExactlyOnceOptions options) {
         this(
-                new JdbcOutputFormat<>(
+                new JdbcOutputFormatNew<>(
                         xaFacade,
                         executionOptions,
                         () -> JdbcBatchStatementExecutor.simple(sql, statementBuilder)),
@@ -187,12 +187,12 @@ public class JdbcXaSinkFunction<T> extends AbstractRichFunction
      *
      * <p>All parameters must be {@link java.io.Serializable serializable}.
      *
-     * @param outputFormat {@link JdbcOutputFormat} to write records with
+     * @param outputFormat {@link JdbcOutputFormatNew} to write records with
      * @param xaFacade {@link XaFacade} to manage XA transactions
      * @param xidGenerator {@link XidGenerator} to generate new transaction ids
      */
     public JdbcXaSinkFunction(
-            JdbcOutputFormat<T, T, JdbcBatchStatementExecutor<T>> outputFormat,
+            JdbcOutputFormatNew<T, T, JdbcBatchStatementExecutor<T>> outputFormat,
             XaFacade xaFacade,
             XidGenerator xidGenerator,
             XaSinkStateHandler stateHandler,

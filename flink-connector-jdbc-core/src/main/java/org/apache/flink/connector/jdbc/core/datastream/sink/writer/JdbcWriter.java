@@ -30,7 +30,7 @@ import org.apache.flink.connector.jdbc.datasource.connections.xa.XaConnectionPro
 import org.apache.flink.connector.jdbc.datasource.statements.JdbcQueryStatement;
 import org.apache.flink.connector.jdbc.datasource.transactions.xa.XaTransaction;
 import org.apache.flink.connector.jdbc.datasource.transactions.xa.domain.TransactionId;
-import org.apache.flink.connector.jdbc.internal.JdbcOutputFormat;
+import org.apache.flink.connector.jdbc.internal.JdbcOutputFormatNew;
 import org.apache.flink.connector.jdbc.internal.JdbcOutputSerializer;
 import org.apache.flink.connector.jdbc.internal.executor.JdbcBatchStatementExecutor;
 import org.apache.flink.util.Preconditions;
@@ -61,7 +61,7 @@ public class JdbcWriter<IN>
     private static final Logger LOG = LoggerFactory.getLogger(JdbcWriter.class);
 
     private final DeliveryGuarantee deliveryGuarantee;
-    private final JdbcOutputFormat<IN, IN, JdbcBatchStatementExecutor<IN>> jdbcOutput;
+    private final JdbcOutputFormatNew<IN, IN, JdbcBatchStatementExecutor<IN>> jdbcOutput;
 
     private XaTransaction jdbcTransaction;
     private long lastCheckpointId;
@@ -122,7 +122,7 @@ public class JdbcWriter<IN>
         checkNotNull(executionOptions, "executionOptions must be defined");
         checkNotNull(queryStatement, "queryStatement must be defined");
         this.jdbcOutput =
-                new JdbcOutputFormat<>(
+                new JdbcOutputFormatNew<>(
                         connectionProvider,
                         executionOptions,
                         () ->

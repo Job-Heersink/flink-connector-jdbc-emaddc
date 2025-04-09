@@ -21,7 +21,7 @@ import org.apache.flink.api.common.restartstrategy.RestartStrategies;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.connector.jdbc.datasource.connections.SimpleJdbcConnectionProvider;
 import org.apache.flink.connector.jdbc.internal.GenericJdbcSinkFunction;
-import org.apache.flink.connector.jdbc.internal.JdbcOutputFormat;
+import org.apache.flink.connector.jdbc.internal.JdbcOutputFormatNew;
 import org.apache.flink.connector.jdbc.internal.executor.JdbcBatchStatementExecutor;
 import org.apache.flink.connector.jdbc.testutils.JdbcITCaseBase;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -183,7 +183,7 @@ public class JdbcITCase extends JdbcTestBase implements JdbcITCaseBase {
             JdbcStatementBuilder<T> statementBuilder,
             JdbcConnectionOptions connectionOptions) {
         return new GenericJdbcSinkFunction<>(
-                new JdbcOutputFormat<>(
+                new JdbcOutputFormatNew<>(
                         new SimpleJdbcConnectionProvider(connectionOptions),
                         JdbcExecutionOptions.defaults(),
                         () -> JdbcBatchStatementExecutor.simple(sql, statementBuilder)));

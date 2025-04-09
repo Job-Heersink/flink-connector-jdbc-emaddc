@@ -21,7 +21,7 @@ import org.apache.flink.annotation.PublicEvolving;
 import org.apache.flink.connector.jdbc.core.datastream.sink.JdbcSinkBuilder;
 import org.apache.flink.connector.jdbc.datasource.connections.SimpleJdbcConnectionProvider;
 import org.apache.flink.connector.jdbc.internal.GenericJdbcSinkFunction;
-import org.apache.flink.connector.jdbc.internal.JdbcOutputFormat;
+import org.apache.flink.connector.jdbc.internal.JdbcOutputFormatNew;
 import org.apache.flink.connector.jdbc.internal.executor.JdbcBatchStatementExecutor;
 import org.apache.flink.connector.jdbc.xa.JdbcXaSinkFunction;
 import org.apache.flink.connector.jdbc.xa.XaFacade;
@@ -72,7 +72,7 @@ public class JdbcSink {
             JdbcExecutionOptions executionOptions,
             JdbcConnectionOptions connectionOptions) {
         return new GenericJdbcSinkFunction<>(
-                new JdbcOutputFormat<>(
+                new JdbcOutputFormatNew<>(
                         new SimpleJdbcConnectionProvider(connectionOptions),
                         executionOptions,
                         () -> JdbcBatchStatementExecutor.simple(sql, statementBuilder)));

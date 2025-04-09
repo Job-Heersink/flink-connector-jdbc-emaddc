@@ -46,7 +46,7 @@ import static org.apache.flink.connector.jdbc.JdbcTestFixture.TEST_DATA;
 import static org.apache.flink.connector.jdbc.JdbcTestFixture.TestEntry;
 import static org.assertj.core.api.Assertions.assertThat;
 
-/** Tests for the {@link JdbcOutputFormat}. */
+/** Tests for the {@link JdbcOutputFormatNew}. */
 public class JdbcTableOutputFormatTest extends JdbcDataTestBase {
 
     private TableJdbcUpsertOutputFormat format;
@@ -84,7 +84,7 @@ public class JdbcTableOutputFormatTest extends JdbcDataTestBase {
 
     /**
      * Test that the delete executor in {@link TableJdbcUpsertOutputFormat} is updated when {@link
-     * JdbcOutputFormat#attemptFlush()} fails.
+     * JdbcOutputFormatNew#attemptFlush()} fails.
      */
     @Test
     void testDeleteExecutorUpdatedOnReconnect() throws Exception {
